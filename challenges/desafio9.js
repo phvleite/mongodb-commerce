@@ -4,6 +4,4 @@ db.produtos.find({
 }, {
   _id: 0,
   nome: 1,
-  "valoresNutricionais.tipo": 1,
-  "valoresNutricionais.quantidade": 1,
 });
