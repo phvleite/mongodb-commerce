@@ -2,6 +2,8 @@
 use('commerce');
 db.produtos.findOne({});
 
+use('commerce');
+db.produtos.find({});
 
 // Desafio 01
 use('commerce');
@@ -9,16 +11,91 @@ db.produtos.countDocuments({});
 
 // Desafio 02
 use('commerce');
-db.produtos.find({},{
+db.produtos.find({}, {
   _id: 0,
   nome: 1,
-  vendidos: 1
+  vendidos: 1,
 }).sort({ vendidos: 1 });
 
 // Desafio 03
 use('commerce');
-db.produtos.find({},{
+db.produtos.find({}, {
   _id: 0,
   nome: 1,
-  vendidos: 1
+  vendidos: 1,
 }).sort({ vendidos: -1 }).limit(1);
+
+// Desafio 04
+use('commerce');
+db.produtos.find({
+  vendidos: { $gt: 50 , $lt: 100 }
+}, {
+  _id: 0,
+  nome: 1,
+  vendidos: 1,
+}).sort({ vendidos: 1 });
+
+// Desafio 05
+use('commerce');
+db.produtos.find({
+  $or: [
+    { curtidas: { $eq: 36 } },
+    { vendidos: { $eq: 85 } },
+  ],
+}, {
+  _id: 0,
+  nome: 1,
+  curtidas: 1,
+  vendidos: 1,
+});
+
+// Desafio 06
+use('commerce');
+db.produtos.find({
+  curtidas: { $gt: 10, $lt: 100 },
+}, {
+  _id: 0,
+  nome: 1,
+  curtidas: 1,
+});
+
+// Desafio 07
+use('commerce');
+db.produtos.find({
+  vendidos: { $ne: 50 },
+  tags: { $exists: false },
+}, {
+  _id: 0,
+  nome: 1,
+  vendidos: 1,
+});
+
+// Desafio 08
+use('commerce');
+db.produtos.deleteMany({
+  curtidas: { $lt: 50 },
+});
+db.produtos.find({}, {
+  _id: 0,
+  nome: 1,
+});
+
+// Desafio 09
+use('commerce');
+db.produtos.find({
+  "valoresNutricionais.0.tipo": { $eq: "calorias" },
+  "valoresNutricionais.0.quantidade": { $lt: 500 },
+}, {
+  _id: 0,
+  nome: 1,
+});
+
+// Desafio 10
+use('commerce');
+db.produtos.find({
+  "valoresNutricionais.3.tipo": { $eq: "proteínas" },
+  "valoresNutricionais.3.percentual": { $gte: 30, $lte: 40 },
+}, {
+  _id: 0,
+  nome: 1,
+});
