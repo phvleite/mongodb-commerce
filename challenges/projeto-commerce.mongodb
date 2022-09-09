@@ -99,3 +99,152 @@ db.produtos.find({
   _id: 0,
   nome: 1,
 });
+
+// Desafio 11
+use('commerce');
+db.produtos.find({
+  nome: { $nin: ["Big Mac", "McChicken"]},
+}, {
+  _id: 0,
+  nome: 1,
+  curtidas: 1,
+  vendidos: 1,
+});
+
+// Desafio 12
+use('commerce');
+db.produtos.updateMany({
+  nome: { $ne: "McChicken" },
+}, {
+  $addToSet: { ingredientes: "ketchup" },
+});
+db.produtos.find({}, {
+  _id: 0,
+  nome: 1,
+  ingredientes: 1,
+});
+
+// Desafio 13
+use('commerce');
+db.produtos.updateMany({}, {
+  $set: { criadoPor: "Ronald McDonald" },
+});
+db.produtos.find({}, {
+  _id: 0,
+  nome: 1,
+  criadoPor: 1,
+});
+
+// Desafio 14
+use('commerce');
+db.produtos.updateMany({
+  ingredientes: { $all: ["picles"] },
+}, {
+  $push: { valoresNutricionais: { $each: [], $slice: 3 } },
+});
+db.produtos.find({
+  ingredientes: { $all: ["picles"] },
+}, {
+  _id: 0,
+  nome: 1,
+  ingredientes: 1,
+  valoresNutricionais: 1,
+});
+
+// Desafio 15
+use('commerce');
+db.produtos.updateMany({}, { $set: { avaliacao: NumberInt(0) } });
+db.produtos.updateMany(
+  { tags: { $eq: "bovino" } },
+  { $inc: { avaliacao: 5 } },
+);
+db.produtos.updateMany(
+  { tags: { $eq: "ave" } },
+  { $inc: { avaliacao: 3 } },
+);
+db.produtos.find({}, {
+  _id: 0,
+  nome: 1,
+  avaliacao: 1,
+});
+
+// Desafio 16
+use('commerce');
+db.produtos.updateMany({
+  nome: "Big Mac",
+}, {
+   $currentDate: { 'ultimaModificacao': { $type: 'date'} }
+});
+db.produtos.find({
+  ultimaModificacao: { $exists: true },
+}, {
+  _id: 0,
+  nome: 1,
+});
+
+// Desafio 17
+// use('commerce');
+// db.produtos.aggregate({
+//   $addFields: { totalProdutos: { $sum: "$vendidos" } },
+// })
+// db.produtos.updateMany({
+//   nome: "Big Mac",
+// }, {
+//    $currentDate: { 'ultimaModificacao': { $type: 'date'} }
+// });
+// db.produtos.find({
+//   ultimaModificacao: { $exists: true },
+// }, {
+//   _id: 0,
+//   nome: 1,
+// });
+
+// Desafio 18
+use('commerce');
+db.produtos.updateMany({
+  nome: { $in: ["Big Mac", "Quarteirão com Queijo"] },
+}, {
+  $addToSet: { ingredientes: "bacon" },
+});
+db.produtos.find({}, {
+  _id: 0,
+  nome: 1,
+  ingredientes: 1,
+});
+
+// Desafio 19
+use('commerce');
+db.produtos.updateMany({}, {
+  $pull: { ingredientes: "cebola" },
+});
+db.produtos.find({}, {
+  _id: 0,
+  nome: 1,
+  ingredientes: 1,
+});
+
+// Desafio 20
+use('commerce');
+db.produtos.updateMany({
+  nome: "Quarteirão com Queijo",
+}, {
+  $pop: { ingredientes: -1 },
+});
+db.produtos.find({}, {
+  _id: 0,
+  nome: 1,
+  ingredientes: 1,
+});
+
+// Desafio 21
+use('commerce');
+db.produtos.updateMany({
+  nome: "Cheddar McMelt",
+}, {
+  $pop: { ingredientes: 1 },
+});
+db.produtos.find({}, {
+  _id: 0,
+  nome: 1,
+  ingredientes: 1,
+});
